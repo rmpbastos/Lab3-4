@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Service
@@ -34,5 +35,24 @@ public class Catdao {
         });
     }
 
+    public int insertData(final Category category) {
+        return template.update("INSERT INTO category VALUES(?,?)", category.getCatcode(), category.getCatdesc());
+    }
+
+    public int deleteData(String cat) {
+        return template.update("DELETE FROM category WHERE catcode = ?", cat);
+    }
+
+    public int EditData(final Category category, String cat) {
+        return template.update("UPDATE category SET catcode=?, catdesc = ? WHERE catcode = ?", category.getCatcode(), category.getCatdesc(), cat);
+    }
+
+    public List<Map<String, Object>> getcat(String cat) {
+        return template.queryForList("SELECT * FROM category WHERE catcode = ?", cat);
+    }
+
+    public List<Map<String, Object>> getitem(String cat) {
+        return template.queryForList("SELECT * FROM items WHERE catcode = ?", cat);
+    }
 
 }
